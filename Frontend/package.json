@@ -12,6 +12,7 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "axios": "^1.8.1",
+    "firebase": "^11.5.0",
     "framer-motion": "^12.4.7",
     "lib-utils-ts": "^0.0.0-test",
     "marked": "^15.0.7",

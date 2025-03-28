@@ -4,6 +4,7 @@ import { Routes,Route } from 'react-router-dom'
 import Chat from './pages/Chat'
 import Login from './pages/Login'
 import { ToastContainer,toast } from 'react-toastify'
+import Navbar from './components/Navbar'
 
 
 
@@ -11,6 +12,7 @@ function App() {
   return (
     <div  >
       <ToastContainer/>
+      
       <Routes>
         <Route path='/' element = {<Home/>}/>
         <Route path='/login' element={<Login/>}/>

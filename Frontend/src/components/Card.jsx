@@ -3,7 +3,6 @@ import { FaBrain, FaCube, FaUserGraduate, FaLock, FaGlobe } from "react-icons/fa
 
 const features = [
   { icon: <FaBrain />, title: "AI-Powered Chat", desc: "Instant answers with AI-powered chat support." },
-  { icon: <FaCube />, title: "3D Visual Learning", desc: "Understand better with interactive 3D models." },
   { icon: <FaUserGraduate />, title: "Personalized Learning", desc: "Track your progress & learn at your pace." },
   { icon: <FaLock />, title: "Secure & Accessible", desc: "Learn anytime, anywhere with cloud-based access." },
   { icon: <FaGlobe />, title: "Free for Everyone", desc: "No hidden costs, accessible to all students." }
