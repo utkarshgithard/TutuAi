@@ -147,20 +147,7 @@ export default function ChatApp() {
     }
   };
 
-  const playAudio = async (text) => {
-    try {
-      const ttsResponse = await axios.post("http://localhost:5000/api/tts/convert", { text });
-      console.log(ttsResponse)
-      const audioUrl = ttsResponse.data.audio;
-      const audio = new Audio(audioUrl);
-      console.log(audio)
-      console.log('Audio URL:', audioUrl);
-      audio.play();
-      console.log("Audio is playing...");
-    } catch (error) {
-      console.error("Failed to play audio:", error);
-    }
-  };
+  
   
 
 
@@ -257,11 +244,6 @@ export default function ChatApp() {
                     📋
                   </button>
                 )}
-                {chat.role === "bot" && (
-                  <button onClick={() => playAudio(chat.content)}>🔊 Play</button>
-                )}
-
-
               </div>
             ))
           )}

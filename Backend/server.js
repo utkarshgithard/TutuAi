@@ -4,7 +4,6 @@ import mongoose from 'mongoose'
 import ChatRouter from './Routes/chatRoutes.js'
 import 'dotenv/config'
 import userRouter from './Routes/userRoutes.js'
-import textToSpeechRoute from './Routes/textToSpeech.js'
 const app = express()
 const PORT = process.env.PORT || 5000
 
@@ -21,7 +20,7 @@ app.use(express.json())
 // Routes
 app.use('/api/v1',ChatRouter)
 app.use('/api/v1/user',userRouter)
-app.use('/api/tts', textToSpeechRoute);
+
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
