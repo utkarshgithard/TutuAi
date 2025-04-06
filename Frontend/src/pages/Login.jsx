@@ -23,6 +23,7 @@ const Login = () => {
     })
     const onSubmitHandler = async (e) => {
         e.preventDefault();
+        console.log(backendURL)
 
         try {
             if (currentState === 'Signup') {
@@ -54,6 +55,7 @@ const Login = () => {
 
     }
     const handleGoogleLogin = async () => {
+        console.log(backendURL)
         try {
             provider.setCustomParameters({ prompt: 'select_account' })
             const result = await signInWithPopup(auth, provider);
