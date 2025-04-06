@@ -7,7 +7,7 @@ import userRouter from './Routes/userRoutes.js'
 import quizRouter from './Routes/quizRouter.js'
 import conversationRouter from './Routes/conversationRouter.js'
 const app = express()
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 8000
 
 
 // connecting database
@@ -15,6 +15,9 @@ mongoose.connect(`${process.env.MONGO_URI}/ChatAPP`)
 .then(() => console.log("MongoDB connected"))
 .catch(err => console.error("MongoDB connection error:", err));
 
+app.get('/',(req,res)=>{
+    res.send("Api Working.")
+})
 // Middlewares
 app.use(cors())
 app.use(express.json())
@@ -25,9 +28,6 @@ app.use('/api/v1/user',userRouter)
 app.use('/api/quiz',quizRouter)
 app.use('/api/v1',conversationRouter)
 
-app.get('/',(req,res)=>{
-    console.log("api Working")
-})
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
