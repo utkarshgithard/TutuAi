@@ -42,7 +42,7 @@ const NavChat = ({ setConversationId, setChatHistory, fetchUserHistory, conversa
         <div className='bg-white h-14 px-2 navHead items-center pt-1 fixed top-0 left-0 w-full z-50 flex justify-between border-b-gray-300 border-2 pr-7 '>
             <div className='flex items-center'>
             <img src={logo} className='h-10 transition-transform duration-500 hover:rotate-[360deg]' alt="" />
-            <div className='mb-3 navHead text-2xl mt-3'>Hi <span className='font-bold'>{userName}</span><Typewriter
+            <div className='mb-3 navHead md:text-2xl mt-3 text-sm'>Hi <span className='font-bold'>{userName}</span><Typewriter
                 words={[
                     '...',
                 ]}
