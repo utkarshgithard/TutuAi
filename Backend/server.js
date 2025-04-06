@@ -25,6 +25,9 @@ app.use('/api/v1/user',userRouter)
 app.use('/api/quiz',quizRouter)
 app.use('/api/v1',conversationRouter)
 
+app.get('/',(req,res)=>{
+    console.log("api Working")
+})
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

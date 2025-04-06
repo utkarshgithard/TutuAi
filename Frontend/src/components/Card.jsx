@@ -20,7 +20,7 @@ const WhyUseFunStudy = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        Why Use Fun Study?
+        Why Use Tutu Ai?
       </motion.h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-6">
