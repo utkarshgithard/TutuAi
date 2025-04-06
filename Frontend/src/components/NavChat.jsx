@@ -55,7 +55,7 @@ const NavChat = ({ setConversationId, setChatHistory, fetchUserHistory, conversa
             /></div>
             </div>
             
-            <div className='flex h-[100%] justify-between gap-6 mt-5'>
+            <div className='flex h-[100%] justify-between gap-2 mt-5'>
                 <div className='md:hidden '>
                     <Sidebar1 />
                 </div>

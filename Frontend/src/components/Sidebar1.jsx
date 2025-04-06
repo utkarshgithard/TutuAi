@@ -37,7 +37,7 @@ const Sidebar1 = () => {
     }, [navigate]);
     return (
         <>
-            <div className="flex md:gap-2 gap-6  md:ml-5 lg:mx-10 md:justify-center md:mt-10 flex-row sm:bg-inherit md:p-2 items-start rounded-2xl md:hover:shadow-lg mb-5   " >
+            <div className="flex gap-6 md:ml-5 lg:mx-10 md:justify-center md:mt-10 flex-row sm:bg-inherit md:p-2 items-start rounded-2xl md:hover:shadow-lg mb-5   " >
                 <Link to={location.pathname === '/quiz' ? '/chat':'/quiz'}>
                 {location.pathname === "/quiz" ?(
                     <div className=" hover:cursor-pointer hover:bg-gray-100 md:p-2 rounded-full flex justify-center items-center gap-2 md:flex-col relative group" onClick={handleClick}>
