@@ -32,7 +32,7 @@ const Login = () => {
                     localStorage.setItem('token', response.data.token)
                     setToken(response.data.token)
                     toast.success(response.data.message)
-                    
+
                 } else {
                     toast.error(response.data.error)
                 }
@@ -58,7 +58,10 @@ const Login = () => {
             provider.setCustomParameters({ prompt: 'select_account' })
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
-            const response = a
+            const response = await axios.post("http://localhost:5000/api/v1/user/google-auth", {
+                email: user.email,
+                name: user.displayName,
+            });
             if (response.data.success) {
                 localStorage.setItem('token', response.data.token);
                 setToken(response.data.token);
@@ -77,8 +80,8 @@ const Login = () => {
     return (
         <div className='h-[100vh] w-full flex flex-col bg-gray-50 items-center'>
             <div className='flex justify-center flex-row items-center gap-8'>
-                <div><img src={logo} className='h-44'  alt="" /></div>
-                
+                <div><img src={logo} className='h-44' alt="" /></div>
+
             </div>
 
             <form onSubmit={onSubmitHandler} className='flex flex-col  items-center  Form'>
@@ -100,7 +103,7 @@ const Login = () => {
                         <p className='hover:cursor-pointer '>Forgot Password?</p>
                         <p className='hover:cursor-pointer ' onClick={() => { currentState === 'Login' ? setCurrentState('Signup') : setCurrentState('Login') }}>{currentState === 'Login' ? 'Create Account' : 'login to account'}</p>
                     </div>
-                    <div className='flex justify-center'  onClick={handleClick}>
+                    <div className='flex justify-center' onClick={handleClick}>
                         <button className='bg-[#007bff] text-white mt-10 w-[40%] py-2 rounded-2xl '>{currentState}</button>
                     </div>
                 </div>
@@ -112,7 +115,7 @@ const Login = () => {
             </div>
             <div onClick={handleGoogleLogin} className=' flex justify-center  text-black gap-2 border border-gray-600  mt-4 py-2 rounded-full px-2 bg-whitefont-semibold hover:cursor-pointer'>
                 <img src={googleicon} alt="" className='h-8 w-8 mr-4' />
-                <button  className='Form' onClick={handleClick} >
+                <button className='Form' onClick={handleClick} >
                     <p>Sign in with Google</p>
                 </button>
             </div>
