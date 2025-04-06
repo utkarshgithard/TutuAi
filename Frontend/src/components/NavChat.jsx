@@ -41,20 +41,10 @@ const NavChat = ({ setConversationId, setChatHistory, fetchUserHistory, conversa
     return (
         <div className='bg-white h-14 px-2 navHead items-center pt-1 fixed top-0 left-0 w-full z-50 flex justify-between border-b-gray-300 border-2 pr-7 '>
             <div className='flex items-center'>
-            <img src={logo} className='h-10 transition-transform duration-500 hover:rotate-[360deg]' alt="" />
-            <div className='mb-3 navHead md:text-2xl mt-3 text-sm'>Hi <span className='font-bold'>{userName}</span><Typewriter
-                words={[
-                    '...',
-                ]}
-                loop={false}
-                cursor
-                cursorStyle=''
-                typeSpeed={500}
-                deleteSpeed={100}
-                delaySpeed={1000}
-            /></div>
+                <img src={logo} className='h-10 transition-transform duration-500 hover:rotate-[360deg]' alt="" />
+                <div className='mb-3 navHead md:text-2xl mt-3 text-sm'>Hi <span className='font-bold'>{userName}</span></div>
             </div>
-            
+
             <div className='flex h-[100%] justify-between gap-2 mt-5'>
                 <div className='md:hidden '>
                     <Sidebar1 />
@@ -82,8 +72,7 @@ const NavChat = ({ setConversationId, setChatHistory, fetchUserHistory, conversa
                     <img src={menu} className='h-8 w-8 sm:hidden cursor-pointer' onClick={() => setVisible(true)} />
 
                 </div>
-            </div>
-            {location.pathname.startsWith('/chat') ? (<div className={`md:hidden absolute top-0 right-0 bottom-0 h-screen overflow-hidden transition-all ${visible ? 'w-full' : 'w-0'} z-50`}>
+                {location.pathname.startsWith('/chat') ? (<div className={`md:hidden absolute top-0 right-0 bottom-0 h-screen overflow-hidden transition-all ${visible ? 'w-full' : 'w-0'} z-50`}>
                 <div className='flex flex-col text-gray-700 '>
                     <div onClick={() => setVisible(true)}>
                         <img className='h-4 rotate-180 cursor-pointer' src={back} alt="" />
@@ -211,6 +200,8 @@ const NavChat = ({ setConversationId, setChatHistory, fetchUserHistory, conversa
                 </div>
             </div>)}
 
+            </div>
+            
         </div>
 
 

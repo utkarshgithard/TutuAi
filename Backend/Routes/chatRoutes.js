@@ -50,7 +50,7 @@ ChatRouter.get('/getUserHistory', authUser, async (req, res) => {
         const user = await userModel.findById(userId)
         res.json({ success: true, conversations,name:user.name });
     } catch (error) {
-        consoe.log(error);
+        console.log(error);
         res.json({ success: false, message: error.message })
     }
 })
