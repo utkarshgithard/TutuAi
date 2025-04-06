@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import Home from './pages/home'
+import Home from './pages/Home'
 import { Routes,Route } from 'react-router-dom'
 import Chat from './pages/Chat'
 import Login from './pages/Login'
