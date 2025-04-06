@@ -13,7 +13,7 @@ const Login = () => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const { token, setToken, navigate, setUserName, userName } = useContext(AppContext);
+    const { token, setToken, navigate, setUserName, userName,backendURL } = useContext(AppContext);
     const handleClick = () => {
         const clickSound = new Audio(click);
         clickSound.play();
@@ -26,7 +26,7 @@ const Login = () => {
 
         try {
             if (currentState === 'Signup') {
-                const response = await axios.post('http://localhost:5000/api/v1/user/register', { name, email, password })
+                const response = await axios.post(backendURL+'/api/v1/user/register', { name, email, password })
                 console.log(response);
                 if (response.data.success === true) {
                     localStorage.setItem('token', response.data.token)
@@ -37,7 +37,7 @@ const Login = () => {
                     toast.error(response.data.error)
                 }
             } else {
-                const response = await axios.post('http://localhost:5000/api/v1/user/login', { email, password })
+                const response = await axios.post(backendURL+'/api/v1/user/login', { email, password })
                 if (response.data.success === true) {
                     localStorage.setItem('token', response.data.token)
                     setToken(response.data.token)
@@ -58,7 +58,7 @@ const Login = () => {
             provider.setCustomParameters({ prompt: 'select_account' })
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
-            const response = await axios.post("http://localhost:5000/api/v1/user/google-auth", {
+            const response = await axios.post(backendURL+'/api/v1/user/google-auth', {
                 email: user.email,
                 name: user.displayName,
             });

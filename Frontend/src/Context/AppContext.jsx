@@ -19,7 +19,7 @@ const AppContextProvider = (props) => {
     const [editingId, setEditingId] = useState(null);
     const [newName, setNewName] = useState("");
     const [userName, setUserName] = useState('')
-
+    const backendURL = import.meta.env.VITE_BACKEND_URL
     
 
     const handleSelectChatHistory = (chatId) => {
@@ -28,8 +28,6 @@ const AppContextProvider = (props) => {
     }
     const handleSelectConversation = (chatId) => {
         setConversationId(chatId);
-        console.log('Hi')
-        console.log(conversations);
         fetchHistory(chatId);
         navigate(`/chat/${chatId}`);
     };
@@ -38,7 +36,7 @@ const AppContextProvider = (props) => {
     const clearConversation = async () => {
         if (!conversationId) return;
         try {
-            await axios.delete("http://localhost:5000/api/v1/clear-conversation", {
+            await axios.delete(backendURL+'/api/v1/clear-conversation', {
                 data: { conversationId },
                 headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
             });
@@ -52,12 +50,11 @@ const AppContextProvider = (props) => {
 
     const fetchUserHistory = async () => {
         try {
-            const res = await axios.get("http://localhost:5000/api/v1/getUserHistory", {
+            const res = await axios.get(backendURL+'/api/v1/getUserHistory', {
                 headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
             });
             setUserName(res.data.name)
             setConversations(res.data.conversations || []);
-            console.log(res)
         } catch (error) {
             console.error("Error fetching conversations:", error);
         }
@@ -66,7 +63,7 @@ const AppContextProvider = (props) => {
 
     const deleteCoversation = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/api/v1/deleteConversation/${id}`)
+            await axios.delete(`${backendURL}/api/v1/deleteConversation/${id}`)
 
             setConversations((prevConversations) => prevConversations.filter(chat => chat._id !== id));
 
@@ -80,8 +77,8 @@ const AppContextProvider = (props) => {
     const fetchHistory = async (conversationId) => {
         setFetchingHistory(true);
         try {
-            const res = await axios.post(
-                "http://localhost:5000/api/v1/conversation-history",
+            const res = await axios.post(backendURL+
+                '/api/v1/conversation-history',
                 { conversationId },
                 { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
             );
@@ -114,7 +111,7 @@ const AppContextProvider = (props) => {
 
         try {
             const res = await axios.post(
-                "http://localhost:5000/api/v1/chat",
+                backendURL+'/api/v1/chat',
                 { message, conversationId },
                 { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
             );
@@ -127,7 +124,6 @@ const AppContextProvider = (props) => {
                 navigate(`/chat/${newConversationId}`);
             }
             setChatHistory((prevChat) => [...prevChat, { role: "bot", content: res.data.response }]);
-            console.log(chatHistory)
         } catch (error) {
             console.error("Error sending message:", error);
         } finally {
@@ -136,7 +132,7 @@ const AppContextProvider = (props) => {
     };
     const updateConversationName = async (id, newName) => {
         try {
-            const response = await axios.put(`http://localhost:5000/api/v1/conversations/${id}`, {
+            const response = await axios.put(`${backendURL}/api/v1/conversations/${id}`, {
                 newName
             });
 
@@ -149,7 +145,7 @@ const AppContextProvider = (props) => {
         }
 
     };
-    const value = { token, setToken, navigate, visible, setVisible, makeQuiz, setMakeQuiz, sendMessage, chatHistory, setChatHistory, conversations, setConversations, conversationId, setConversationId, message, setMessage, fetchingHistory, setFetchingHistory, fetchHistory, deleteCoversation, clearConversation, fetchUserHistory, loading, selectedChatHistory, handleSelectChatHistory, updateConversationName, editingId,newName,setNewName,setEditingId,userName,setUserName,handleSelectConversation }
+    const value = { backendURL,token, setToken, navigate, visible, setVisible, makeQuiz, setMakeQuiz, sendMessage, chatHistory, setChatHistory, conversations, setConversations, conversationId, setConversationId, message, setMessage, fetchingHistory, setFetchingHistory, fetchHistory, deleteCoversation, clearConversation, fetchUserHistory, loading, selectedChatHistory, handleSelectChatHistory, updateConversationName, editingId,newName,setNewName,setEditingId,userName,setUserName,handleSelectConversation }
 
     return (
         <AppContext.Provider value={value}>

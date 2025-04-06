@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
+import { AppContext } from "../Context/AppContext";
 
 const QuizPage = ({ selectedChatHistory }) => {
   const [quizQuestions, setQuizQuestions] = useState([]);
@@ -19,6 +20,7 @@ const QuizPage = ({ selectedChatHistory }) => {
       [questionIndex]: selectedOption
     }));
   };
+  const {backendURL} = useContext(AppContext)
 
   const submitQuiz = () => {
     let correctCount = 0;
@@ -49,8 +51,8 @@ const QuizPage = ({ selectedChatHistory }) => {
     setShowAnalysis(false);
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/quiz/generate-quiz",
+      const response = await axios.post(backendURL+
+        '/api/quiz/generate-quiz',
         {
           chatHistory: selectedChatHistory
         },
