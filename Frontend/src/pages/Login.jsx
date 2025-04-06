@@ -5,13 +5,22 @@ import { auth, provider, signInWithPopup } from '../firebase';
 import { AppContext } from '../Context/AppContext'
 import { toast } from 'react-toastify'
 import logo from '../assets/logoCo.png'
+import googleicon from '../assets/google-icon.png'
+import click from '../assets/click.mp3'
 const Login = () => {
 
     const [currentState, setCurrentState] = useState('Login')
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const { token, setToken, navigate } = useContext(AppContext)
+    const { token, setToken, navigate, setUserName, userName } = useContext(AppContext);
+    const handleClick = () => {
+        const clickSound = new Audio(click);
+        clickSound.play();
+    };
+    useEffect(() => {
+        console.log(userName)
+    })
     const onSubmitHandler = async (e) => {
         e.preventDefault();
 
@@ -23,6 +32,7 @@ const Login = () => {
                     localStorage.setItem('token', response.data.token)
                     setToken(response.data.token)
                     toast.success(response.data.message)
+                    
                 } else {
                     toast.error(response.data.error)
                 }
@@ -48,8 +58,7 @@ const Login = () => {
             provider.setCustomParameters({ prompt: 'select_account' })
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
-            const response = await axios.post('http://localhost:5000/api/v1/user/google-auth', { email: user.email, name: user.displayName });
-
+            const response = a
             if (response.data.success) {
                 localStorage.setItem('token', response.data.token);
                 setToken(response.data.token);
@@ -66,14 +75,14 @@ const Login = () => {
     }, [token])
 
     return (
-        <div className='h-[100vh] w-full flex flex-col bg-gray-50'>
-            <div className='flex justify-start mt-10 ml-5  flex-row items-center gap-8'>
-                <div><img src={logo} className='h-21 w-20 rounded-full  ' alt="" /></div>
-                <div className='text-gray-900  font-bold text-4xl '> Nebula Navigators</div>
+        <div className='h-[100vh] w-full flex flex-col bg-gray-50 items-center'>
+            <div className='flex justify-center flex-row items-center gap-8'>
+                <div><img src={logo} className='h-44'  alt="" /></div>
+                
             </div>
 
-            <form onSubmit={onSubmitHandler} className='flex flex-col  items-center mt-20 '>
-                <div className='flex flex-col gap-2 border border-[#D1D5DB] rounded-md px-10 py-10 bg-[#F7F9FC] hover:shadow-lg'>
+            <form onSubmit={onSubmitHandler} className='flex flex-col  items-center  Form'>
+                <div className='flex flex-col gap-2 border border-[#D1D5DB] rounded-md px-10 py-4 bg-[#F7F9FC] hover:shadow-lg'>
                     <div>Start your journey with us</div>
                     <div className='inline-flex items-center gap-3.5'>
                         <p className='text-3xl font-bold'>{currentState} to FunStudy </p>
@@ -91,15 +100,23 @@ const Login = () => {
                         <p className='hover:cursor-pointer '>Forgot Password?</p>
                         <p className='hover:cursor-pointer ' onClick={() => { currentState === 'Login' ? setCurrentState('Signup') : setCurrentState('Login') }}>{currentState === 'Login' ? 'Create Account' : 'login to account'}</p>
                     </div>
-                    <div className='flex justify-center'>
+                    <div className='flex justify-center'  onClick={handleClick}>
                         <button className='bg-[#007bff] text-white mt-10 w-[40%] py-2 rounded-2xl '>{currentState}</button>
-
                     </div>
                 </div>
             </form>
-            <button type='button' onClick={handleGoogleLogin} className='bg-red-500 text-white mt-4 w-[40%] py-2 rounded-2xl'>
-                Login with Google
-            </button>
+            <div className='flex justify-center mt-5 px-4 items-center gap-3'>
+                <p className='h-[1.5px] w-40 bg-gray-400'></p>
+                <p>or</p>
+                <p className='h-[1.5px] w-40 bg-gray-400'></p>
+            </div>
+            <div onClick={handleGoogleLogin} className=' flex justify-center  text-black gap-2 border border-gray-600  mt-4 py-2 rounded-full px-2 bg-whitefont-semibold hover:cursor-pointer'>
+                <img src={googleicon} alt="" className='h-8 w-8 mr-4' />
+                <button  className='Form' onClick={handleClick} >
+                    <p>Sign in with Google</p>
+                </button>
+            </div>
+
         </div>
     )
 }

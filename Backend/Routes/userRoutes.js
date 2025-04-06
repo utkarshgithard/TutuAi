@@ -24,10 +24,10 @@ userRouter.post('/google-auth', async (req, res) => {
         }
 
         const jwtToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-        res.json({ success: true, token: jwtToken, user });
+        res.json({ success: true, token: jwtToken, user ,name:user.name });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, error: 'Internal Server Error' });
+        res.json({ success: false, error: 'Internal Server Error' });
     }
 });
 
@@ -43,7 +43,7 @@ userRouter.post("/register", async (req, res) => {
 
         const existingUser = await userModel.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ error: "User already exists" });
+            return res.json({ error: "User already exists" });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -51,10 +51,10 @@ userRouter.post("/register", async (req, res) => {
 
         const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET)
 
-        res.status(201).json({ success: true, message: "User registered successfully", user: newUser, token });
+        res.json({ success: true, message: "User registered successfully", user: newUser, token,name:newUser.name });
     } catch (error) {
         console.error("Registration error:", error);
-        res.status(500).json({ success: false, error: "Server error" });
+        res.json({ success: false, error: "Connect to Network" });
     }
 });
 
@@ -62,24 +62,24 @@ userRouter.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
-            return res.status(400).json({ success: false, error: "All fields are required" });
+            return res.json({ success: false, error: "All fields are required" });
         }
 
         const user = await userModel.findOne({ email });
         if (!user) {
-            return res.status(400).json({ success: false, error: "Invalid credentials" });
+            return res.json({ success: false, error: "Invalid credentials" });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ success: false, error: "Invalid credentials" });
+            return res.json({ success: false, error: "Invalid credentials" });
         }
 
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-        res.json({ success: true, message: "Login successful", token });
+        res.json({ success: true, message: "Login successful", token , name:user.name });
     } catch (error) {
         console.error("Login error:", error);
-        res.status(500).json({ success: false, error: "Server error" });
+        res.json({ success: false, error: "Connect to Network" });
     }
 });
 

@@ -1,43 +1,63 @@
-import React from 'react'
-import homep1 from '../assets/p5.png'
-import WhyUseFunStudy from '../components/Card'
-import { Link } from 'react-router-dom'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+import React from 'react';
+import homep1 from '../assets/p5.png';
+import WhyUseFunStudy from '../components/Card';
+import { Link } from 'react-router-dom';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import { Typewriter } from 'react-simple-typewriter';
 
 const Home = () => {
     return (
         <>
-            <Navbar/>
-            <div className='h-screen w-100vw flex flex-col ' id='home' >
-                <div className='flex justify-end px-8 mt-4'>
-                    <button className='border border-blue-800 px-4 py-1 bg-gray-950 text-white font-mono text-md rounded-md' >Login</button>
-                </div>
-                <div className='flex mt-20 mx-10 gap-8'>
-                    <div className='flex flex-col justify-center items-center gap-4'>
-                        <h3 className='text-2xl font-mono '>"Revolutionizing Learning with AI-Powered Chat & 3D Visuals!"</h3>
-                        <div className='flex flex-col justify-end'>
+            <Navbar />
+            <div className='min-h-screen w-full  text-white flex flex-col' id='home'>
+                <div className='flex flex-col md:flex-row items-center justify-between mt-20 px-6 md:px-12 gap-8'>
 
-                            <Link to={'/login'} className="font-mono font-medium border px-6 py-3 border-black rounded-full bg-gray-900 text-white shadow-lg transition-all duration-300 ease-in-out hover:bg-gray-700 hover:scale-105 active:scale-95">
+                    {/* Left Section */}
+                    <div className='flex flex-col justify-center gap-6 max-w-xl text-center md:text-left'>
+                        <h2 className='text-2xl md:text-4xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent'>
+                            <Typewriter
+                                words={[
+                                    'TUTU-AI combines AI with real-time doubt-solving and personalized quizzes.',
+                                ]}
+                                loop={false}
+                                cursor
+                                cursorStyle='|'
+                                typeSpeed={90}
+                                deleteSpeed={0}
+                                delaySpeed={1000}
+                            />
+                        </h2>
+                        <h3 className='px-3 text-md md:text-lg text-gray-900 fade-in'>
+                            No more passive studying—just active conversations, dynamic explanations, and targeted quizzes to make every concept stick.
+                        </h3>
+                        <div className='flex justify-center md:justify-start '>
+                            <Link
+                                to={'/login'}
+                                className="px-6 py-3 font-semibold rounded-full border border-cyan-400 text-blue-500 hover:bg-cyan-500 hover:text-black shadow-md transition duration-300 ease-in-out"
+                            >
                                 Get Started 🚀
                             </Link>
-
                         </div>
-
                     </div>
-                    <img className='' src={homep1} alt="" />
+
+                    {/* Right Section */}
+                    <img
+                        className='w-full md:w-1/2 max-w-md mx-auto md:mx-0 animate-fade-in-up rounded-xl shadow-lg'
+                        src={homep1}
+                        alt="AI Learning"
+                    />
                 </div>
-                <div>
+
+                {/* Feature Section */}
+                <div className='mt-10'>
                     <WhyUseFunStudy />
                 </div>
-                <div>
-                    <Footer/>
-                </div>
+
+                <Footer />
             </div>
-            
         </>
+    );
+};
 
-    )
-}
-
-export default Home
+export default Home;

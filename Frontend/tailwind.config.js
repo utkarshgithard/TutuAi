@@ -6,11 +6,12 @@ export default {
   ],
   theme: {
     extend: {
-      backgroundImage:{
-        'study-theme':"Frontend/public/study-bg.jpg"
-      }
+      extend: {
+        animation: {
+          'spin-fast': 'spin 1s linear infinite',
+        }
     },
   },
   plugins: [],
 }
-
+}

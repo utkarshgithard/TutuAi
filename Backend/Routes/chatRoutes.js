@@ -4,6 +4,7 @@ import ChatModel from '../Models/chatModal.js';
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { uniqueId } from '../util.js';
 import authUser from '../middlewares/auth.js';
+import userModel from '../Models/userModal.js';
 
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
@@ -26,7 +27,6 @@ ChatRouter.delete('/deleteConversation/:conversationId', async (req, res) => {
         console.log(error)
         res.json({ error: "Server Error" })
     }
-
 })
 
 ChatRouter.get('/getUserHistory', authUser, async (req, res) => {
@@ -38,16 +38,22 @@ ChatRouter.get('/getUserHistory', authUser, async (req, res) => {
         }
         const conversations = await ChatModel.aggregate([
             { $match: { userId } },
-            { $group: { _id: "$conversationId", latestMessage: { $last: "$userMessage" } } },
-            { $sort: { latestMessage: -1 } }  // Sort by latest message
+            {
+                $group: {
+                    _id: "$conversationId",
+                    topicName: { $first: "$topicName" }, // 🟡 Pick the topicName from one of the messages
+                    createdAt: { $first: "$createdAt" },  // Optional: sort by created time
+                }
+            },
+            { $sort: { createdAt: -1 } } // Newest conversations first
         ]);
-        res.json({ success: true, conversations });
+        const user = await userModel.findById(userId)
+        res.json({ success: true, conversations,name:user.name });
     } catch (error) {
         consoe.log(error);
         res.json({ success: false, message: error.message })
     }
 })
-
 
 ChatRouter.post('/chat', authUser, async (req, res) => {
 
@@ -70,7 +76,7 @@ ChatRouter.post('/chat', authUser, async (req, res) => {
         const conversation = pastChats.map(chat => ({ role: "user", content: chat.userMessage }));
         conversation.push({ role: "user", content: message });
 
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
         // Prepare conversation with context
         const limitedContext = pastChats.slice(-5).map(chat => ({
             role: "user",
@@ -103,7 +109,7 @@ ChatRouter.post('/chat', authUser, async (req, res) => {
         res.status(500).json({ error: "Something went wrong" });
     }
 });
-// History of Conversation
+// History of Conversation                  
 ChatRouter.post("/conversation-history", authUser, async (req, res) => {
     try {
         let { userId } = req.body;

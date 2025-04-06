@@ -1,16 +1,19 @@
 import { motion } from "framer-motion";
-import { FaBrain, FaCube, FaUserGraduate, FaLock, FaGlobe } from "react-icons/fa";
+import { FaCode, FaBrain, FaCube, FaUserGraduate, FaLock, FaGlobe } from "react-icons/fa";
 
 const features = [
   { icon: <FaBrain />, title: "AI-Powered Chat", desc: "Instant answers with AI-powered chat support." },
   { icon: <FaUserGraduate />, title: "Personalized Learning", desc: "Track your progress & learn at your pace." },
   { icon: <FaLock />, title: "Secure & Accessible", desc: "Learn anytime, anywhere with cloud-based access." },
-  { icon: <FaGlobe />, title: "Free for Everyone", desc: "No hidden costs, accessible to all students." }
+  { icon: <FaGlobe />, title: "Free for Everyone", desc: "No hidden costs, accessible to all students." },
+  { icon: <FaCube />, title: "Quiz-Based Learning", desc: "Reinforce concepts with personalized quizzes generated from your chats." },
+  { icon: <FaCode />, title: "Code Generator", desc: "Get code snippets tailored to your questions for faster learning." }
+
 ];
 
 const WhyUseFunStudy = () => {
   return (
-    <section className="py-16  text-white bg-[#e6ebed]">
+    <section className="py-16  text-white bg-white">
       <motion.h2 
         className="text-3xl font-bold text-center text-black mb-8 "
         initial={{ opacity: 0, y: -50 }}
