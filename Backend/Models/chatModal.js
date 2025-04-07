@@ -2,7 +2,7 @@ import mongoose, { model } from 'mongoose'
 const ChatSchema = new mongoose.Schema({
     userId:{type:String},
     conversationId:{type:String},
-    topicName: { type: String, default: "Untitled Conversation" },
+    topicName: { type: String },
     userMessage: String,
     botResponse: String,
     timestamp: { type: Date, default: Date.now }

@@ -13,7 +13,7 @@ const Login = () => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const { token, setToken, navigate, setUserName, userName,backendURL } = useContext(AppContext);
+    const { token, setToken, navigate, setUserName, userName, backendURL, setgoogleloginLoading, googleloginLoading } = useContext(AppContext);
     const handleClick = () => {
         const clickSound = new Audio(click);
         clickSound.play();
@@ -27,7 +27,7 @@ const Login = () => {
 
         try {
             if (currentState === 'Signup') {
-                const response = await axios.post(backendURL+'/api/v1/user/register', { name, email, password })
+                const response = await axios.post(backendURL + '/api/v1/user/register', { name, email, password })
                 console.log(response);
                 if (response.data.success === true) {
                     localStorage.setItem('token', response.data.token)
@@ -38,7 +38,7 @@ const Login = () => {
                     toast.error(response.data.error)
                 }
             } else {
-                const response = await axios.post(backendURL+'/api/v1/user/login', { email, password })
+                const response = await axios.post(backendURL + '/api/v1/user/login', { email, password })
                 if (response.data.success === true) {
                     localStorage.setItem('token', response.data.token)
                     setToken(response.data.token)
@@ -59,8 +59,10 @@ const Login = () => {
         try {
             provider.setCustomParameters({ prompt: 'select_account' })
             const result = await signInWithPopup(auth, provider);
+            setgoogleloginLoading(true);
+
             const user = result.user;
-            const response = await axios.post(backendURL+'/api/v1/user/google-auth', {
+            const response = await axios.post(backendURL + '/api/v1/user/google-auth', {
                 email: user.email,
                 name: user.displayName,
             });
@@ -71,6 +73,8 @@ const Login = () => {
             }
         } catch (error) {
             toast.error("Google login failed");
+        } finally {
+            setgoogleloginLoading(false);
         }
     };
     useEffect(() => {
@@ -80,11 +84,24 @@ const Login = () => {
     }, [token])
 
     return (
+        
+            googleloginLoading?(
+            <div className = "flex justify-center items-center h-screen bg-gray-50" >
+                    <div className="flex flex-col items-center">
+                        <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent">
+                        </div>
+                        <p className="mt-4 text-gray-700 text-lg font-medium">Logging in with Google...</p>
+                    </div>
+    </div >
+        ) : (
+    <>
         <div className='h-[100vh] w-full flex flex-col bg-gray-50 items-center'>
+
             <div className='flex justify-center flex-row items-center gap-8'>
                 <div><img src={logo} className='h-44' alt="" /></div>
 
             </div>
+
 
             <form onSubmit={onSubmitHandler} className='flex flex-col  items-center  Form'>
                 <div className='flex flex-col gap-2 border border-[#D1D5DB] rounded-md px-10 py-4 bg-[#F7F9FC] hover:shadow-lg'>
@@ -123,6 +140,10 @@ const Login = () => {
             </div>
 
         </div>
+    </>
+)
+
+        
     )
 }
 

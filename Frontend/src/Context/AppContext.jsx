@@ -19,6 +19,7 @@ const AppContextProvider = (props) => {
     const [editingId, setEditingId] = useState(null);
     const [newName, setNewName] = useState("");
     const [userName, setUserName] = useState('')
+    const [googleloginLoading,setgoogleloginLoading] = useState(false);
     const backendURL = import.meta.env.VITE_BACKEND_URL
     
 
@@ -145,7 +146,7 @@ const AppContextProvider = (props) => {
         }
 
     };
-    const value = { backendURL,token, setToken, navigate, visible, setVisible, makeQuiz, setMakeQuiz, sendMessage, chatHistory, setChatHistory, conversations, setConversations, conversationId, setConversationId, message, setMessage, fetchingHistory, setFetchingHistory, fetchHistory, deleteCoversation, clearConversation, fetchUserHistory, loading, selectedChatHistory, handleSelectChatHistory, updateConversationName, editingId,newName,setNewName,setEditingId,userName,setUserName,handleSelectConversation }
+    const value = { backendURL,token, setToken, navigate, visible, setVisible, makeQuiz, setMakeQuiz, sendMessage, chatHistory, setChatHistory, conversations, setConversations, conversationId, setConversationId, message, setMessage, fetchingHistory, setFetchingHistory, fetchHistory, deleteCoversation, clearConversation, fetchUserHistory, loading, selectedChatHistory, handleSelectChatHistory, updateConversationName, editingId,newName,setNewName,setEditingId,userName,setUserName,handleSelectConversation,setgoogleloginLoading,googleloginLoading }
 
     return (
         <AppContext.Provider value={value}>

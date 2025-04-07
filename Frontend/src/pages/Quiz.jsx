@@ -1,14 +1,22 @@
 import { useContext, useEffect, useState, useRef } from "react";
 import axios from "axios";
-import {AppContext } from "../Context/AppContext";
+import { AppContext } from "../Context/AppContext";
 import Sidebar1 from "../components/Sidebar1";
 import NavChat from "../components/NavChat.jsx";
 import QuizArea from '../components/QuizArea.jsx'
 export default function Quiz() {
-  const {setConversationId,setChatHistory,fetchUserHistory,conversations,handleSelectConversation,deleteCoversation,clearConversation,handleSelectChatHistory,selectedChatHistory} = useContext(AppContext);
-  useEffect(()=>{
+
+  const [showSelectedChatHistory, setShowSelectedChatHistory] = useState(null);
+
+
+  const { setConversationId, setChatHistory, fetchUserHistory, conversations, handleSelectConversation, deleteCoversation, clearConversation, handleSelectChatHistory, selectedChatHistory } = useContext(AppContext);
+  const handleClick = (id) => {
+    setShowSelectedChatHistory(id);
+  };
+  useEffect(() => {
     fetchUserHistory();
-  },[])
+  }, [])
+
   return (
 
     <>
@@ -34,12 +42,15 @@ export default function Quiz() {
               conversations.map((chat) => (
                 <div
                   key={chat._id}
-                  className="p-2 border mb-2 cursor-pointer hover:bg-gray-200 flex justify-between md:flex-row sm:flex-col items-center gap-2 border-gray-200 md:gap-4 lg:gap-10 rounded-lg"
+                  className={`p-2 border mb-2 cursor-pointerflex justify-between md:flex-row sm:flex-col items-center gap-2  md:gap-4 lg:gap-10 ${showSelectedChatHistory===chat._id ?'border border-blue-700 rounded-lg':' border hover:bg-gray-200 border-gray-200 rounded-lg'}`}
                 >
-                  <div onClick={() => handleSelectChatHistory(chat._id)} className="">
-                  <p className="text-sm font-semibold text-gray-700 truncate">
-                        {chat.topicName || "Untitled Conversation"}
-                      </p>
+                  <div onClick={() => {
+                    handleSelectChatHistory(chat._id)
+                    handleClick(chat._id)
+                  }}  >
+                    <p className="text-sm font-semibold text-gray-700 truncate">
+                      {chat.topicName || "Untitled"}
+                    </p>
                   </div>
                 </div>
               ))
@@ -53,7 +64,7 @@ export default function Quiz() {
         {/* Chat Area and Quiz Area */}
 
         <div className="w-full sm:w-3/4 p-4 flex flex-col justify-between mt-5 h-[85%] ">
-            <QuizArea selectedChatHistory={selectedChatHistory}/>
+          <QuizArea selectedChatHistory={selectedChatHistory} />
         </div>
       </div>
     </>

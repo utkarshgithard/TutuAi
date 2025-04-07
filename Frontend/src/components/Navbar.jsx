@@ -4,22 +4,22 @@ import logo from '../assets/logonav.png'
 const Navbar = () => {
   return (
     <nav className="bg-gray-900 text-white shadow-md sticky top-0 z-50">
-      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <div className='flex items-center justify-center'>
-        <img
+      <div className="container mx-auto md:px-8 px-4 py-4  flex justify-between items-center">
+        <div className='flex items-center justify-center gap-4'>
+          <img
             src={logo}
-            className="h-16 animate-spin-fast"
+            className="md:h-16 h-10 animate-spin-fast "
             alt="TUTU-AI Logo"
           />
-        {/* Brand / Logo */}
-        <a
-          href="/"
-          className="text-3xl font-extrabold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent tracking-wider"
-        >
-           TUTU-AI
-        </a>
+          {/* Brand / Logo */}
+          <a
+            href="/"
+            className="md:text-3xl text- font-extrabold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent tracking-wider "
+          >
+            TUTU-AI
+          </a>
         </div>
-        
+
 
         {/* Navigation Links */}
         <ul className="flex space-x-6 text-sm md:text-base font-medium">
