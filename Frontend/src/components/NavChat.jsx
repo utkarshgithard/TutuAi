@@ -82,7 +82,7 @@ const NavChat = ({ setConversationId, setChatHistory, fetchUserHistory, conversa
                 </div>
                 {location.pathname.startsWith('/chat') ? (<div className={`md:hidden absolute top-0 right-0 bottom-0 h-screen overflow-hidden transition-all ${visible ? 'w-full' : 'w-0'} z-50`}>
                     <div className='flex flex-col text-gray-700 '>
-                        <div onClick={() => setVisible(true)}>
+                        <div onClick={() => setVisible()}>
                             <img className='h-4 rotate-180 cursor-pointer' src={back} alt="" />
                             <p className='cursor-pointer' >Back</p>
 
@@ -106,7 +106,7 @@ const NavChat = ({ setConversationId, setChatHistory, fetchUserHistory, conversa
                                                     ? 'bg-blue-100 border-blue-400 shadow-md'
                                                     : 'hover:bg-gray-200 border-gray-200'}`} onClick={ () => {
                                                         handleSelectConversation(chat._id);
-                                                        setVisible(false);
+                                                        setVisible(true);
                                                     }}  >
                                                     <div className='flex justify-between'  >
 
