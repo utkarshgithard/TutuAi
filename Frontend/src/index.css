@@ -28,7 +28,7 @@
 
 @layer utilities {
   .animate-spin-fast {
-    animation: spin 1s linear infinite;
+    animation: spin 4s linear infinite;
   }
 }
 .Chat{

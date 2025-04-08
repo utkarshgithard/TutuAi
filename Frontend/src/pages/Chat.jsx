@@ -49,14 +49,14 @@ export default function ChatApp() {
 
         {/* Sidebar for Conversation History */}
 
-        <div className="w-[30%] overflow-auto py-5 hidden sm:flex flex-col border-2 border-r-gray-300">
+        <div className="md:max-w-[40%] lg:w-[40%]  overflow-auto py-5 hidden sm:flex flex-col border-2 border-r-gray-300">
 
           <div className="md:flex hidden justify-center">
             <Sidebar1 />
           </div>
 
 
-          <div className=" p-4 h-auto  bg-gray-50 shadow-lg hover:shadow-2xl  rounded-lg ml-5 lg:mx-10 mt-5 mr-5">
+          <div className=" p-4 h-auto  bg-gray-50 shadow-lg hover:shadow-2xl  rounded-lg ml-5 lg:mx-10 mt-8 mr-5">
             <div className="flex justify-center items-center">
               <h2 className="text-lg font-bold mb-4">Recent Searches</h2>
             </div>
@@ -65,23 +65,30 @@ export default function ChatApp() {
               conversations.map((chat) => (
                 <div
                   key={chat._id}
-                  className="p-2 border mb-2 cursor-pointer hover:bg-gray-200 flex flex-wrap justify-between items-center border-gray-200 gap-2 sm:gap-4 md:gap-6 lg:gap-8 rounded-lg"
+                  className={`p-2 border mb-2 cursor-pointer flex flex-wrap justify-between items-center gap-2 sm:gap-4 md:gap-6 lg:gap-8 rounded-lg transition-all duration-200 
+                    ${conversationId === chat._id 
+                      ? 'bg-blue-100 border-blue-400 shadow-md' 
+                      : 'hover:bg-gray-200 border-gray-200'}`}
                 >
-                  {/* Left Section - Conversation Name */}
+                  {/* Left Section - Recent History Section in lthe left  */ }
                   <div
                     onClick={() => handleSelectConversation(chat._id)}
-                    className="flex-1 min-w-[150px]" // Ensures text doesn't shrink too much
+                    className="flex-1 min-w-[150px]" 
                   >
                     {editingId === chat._id ? (
                       <input
                         type="text"
                         value={newName}
                         onChange={(e) => setNewName(e.target.value)}
-                        className="border p-1 rounded w-full"
+                        className="w-full border p-1  truncate"
                         autoFocus
                       />
                     ) : (
-                      <p className="text-sm font-semibold text-gray-700 truncate">
+                      <p className={`text-sm truncate ${
+                        conversationId === chat._id 
+                          ? 'font-bold text-blue-700' 
+                          : 'font-semibold text-gray-700'
+                      }`}>
                         {chat.topicName || "Untitled Conversation"}
                       </p>
                     )}
@@ -110,12 +117,7 @@ export default function ChatApp() {
               </div>
             )}
 
-            <div className="flex items-center justify-center">
-              <button onClick={clearConversation} className="mt-4 px-2 py-1 bg-red-500 text-white md:w-[80%] md:rounded-full sm:rounded-3xl
-           ">
-                Clear Conversation
-              </button>
-            </div>
+            
           </div>
         </div>
 

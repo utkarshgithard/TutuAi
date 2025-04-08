@@ -4,15 +4,21 @@ import { copyToClipboard } from "../utils.js/copy";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/atom-one-dark.css";
-
+import logo from '../assets/logonav.png'
 
 const ChatComponent = ({ fetchingHistory, setHoverIndex, chatHistory, loading, fetchUserHistory }) => {
 
 
     const botMessageRef = useRef(null);
+    const topRef = useRef(null);
     useEffect(() => {
         if (botMessageRef.current) {
             botMessageRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+    }, [chatHistory]);
+    useEffect(() => {
+        if (topRef.current) {
+            topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
         }
     }, [chatHistory]);
     useEffect(() => {
@@ -27,7 +33,7 @@ const ChatComponent = ({ fetchingHistory, setHoverIndex, chatHistory, loading, f
                     <p className="text-gray-500">Loading conversation...</p>
                 ) : (
                     chatHistory.map((chat, index) => (
-                        <div key={index} ref={chat.role === "bot" ? botMessageRef : null} className={`mb-4 ${chat.role === "user" ? "text-right" : "text-left"}`}
+                        <div key={index} ref={chat.role === "bot"? botMessageRef : topRef}  className={`mb-4 ${chat.role === "user" ? "text-right" : "text-left"}`}
                             onMouseEnter={() => setHoverIndex(index)}
                             onMouseLeave={() => setHoverIndex(null)}>
                             <div className={`inline-block space-y-4 p-4 rounded-3xl ${chat.role === "user"
@@ -52,7 +58,13 @@ const ChatComponent = ({ fetchingHistory, setHoverIndex, chatHistory, loading, f
                         </div>
                     ))
                 )}
-                {loading && <p className="text-gray-500">Sending message...</p>}
+                {loading && <p className="text-gray-500 flex justify-start gap-2 items-center">
+                    <img
+                        src={logo}
+                        alt="Logo"
+                        className="h-5 w-5 md:h-12 md:w-12 object-contain animate-spin-fast"
+                    />
+                    Sending message...</p>}
             </div>
             <hr className="mt-5" />
         </>

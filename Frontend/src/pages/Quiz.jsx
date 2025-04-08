@@ -6,10 +6,9 @@ import NavChat from "../components/NavChat.jsx";
 import QuizArea from '../components/QuizArea.jsx'
 export default function Quiz() {
 
-  const [showSelectedChatHistory, setShowSelectedChatHistory] = useState(null);
 
 
-  const { setConversationId, setChatHistory, fetchUserHistory, conversations, handleSelectConversation, deleteCoversation, clearConversation, handleSelectChatHistory, selectedChatHistory } = useContext(AppContext);
+  const { setConversationId, setChatHistory, fetchUserHistory, conversations, handleSelectConversation, deleteCoversation, clearConversation, handleSelectChatHistory, selectedChatHistory,setShowSelectedChatHistory,showSelectedChatHistory } = useContext(AppContext);
   const handleClick = (id) => {
     setShowSelectedChatHistory(id);
   };
@@ -19,14 +18,14 @@ export default function Quiz() {
 
   return (
 
-    <>
+    <div className="">
       <NavChat setConversationId={setConversationId} setChatHistory={setChatHistory} fetchUserHistory={fetchUserHistory} conversations={conversations} handleSelectConversation={handleSelectConversation} deleteCoversation={deleteCoversation} clearConversation={clearConversation} />
 
-      <div className="flex h-screen mt-10 bg-white  bg-study-theme bg-cover bg-center mr-1'">
+      <div className="flex  h-screen mt-10 bg-white  bg-study-theme bg-cover bg-center mr-1'">
 
         {/* Sidebar for Conversation History */}
 
-        <div className="w-[30%] overflow-auto py-5 hidden sm:flex flex-col border-2 border-r-gray-300">
+        <div className=" md:w-[50%] lg:w-[40%] overflow-auto py-5 hidden md:flex flex-col border-2 border-r-gray-300">
 
           <div className="md:flex hidden justify-center">
             <Sidebar1 />
@@ -63,11 +62,11 @@ export default function Quiz() {
         </div>
         {/* Chat Area and Quiz Area */}
 
-        <div className="w-full sm:w-3/4 p-4 flex flex-col justify-between mt-5 h-[85%] ">
+        <div className="w-full p-4 l flex-grow justify-between mt-5 h-auto ">
           <QuizArea selectedChatHistory={selectedChatHistory} />
         </div>
       </div>
-    </>
+    </div>
 
   );
 }

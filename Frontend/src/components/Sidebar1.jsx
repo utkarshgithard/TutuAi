@@ -28,6 +28,17 @@ const Sidebar1 = () => {
         // Redirect to home or login page
         navigate("/");
     };
+    const handleCopyLink = () => {
+        const url = window.location.href; // or a custom shareable URL
+        navigator.clipboard.writeText(url)
+          .then(() => {
+            alert('Link copied to clipboard!');
+          })
+          .catch((err) => {
+            console.error('Failed to copy: ', err);
+          });
+      };
+      
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -37,31 +48,30 @@ const Sidebar1 = () => {
     }, [navigate]);
     return (
         <>
-            <div className="flex gap-6 md:ml-5 lg:mx-10 md:justify-center md:mt-10 flex-row sm:bg-inherit md:p-2 items-start rounded-2xl md:hover:shadow-lg mb-5   " >
+            <div className="flex  gap-6 md:ml-5 lg:mx-10 md:justify-center md:mt-10 flex-row sm:bg-inherit md:p-2 items-start rounded-2xl md:hover:shadow-lg mb-5   " >
                 <Link to={location.pathname === '/quiz' ? '/chat':'/quiz'}>
                 {location.pathname === "/quiz" ?(
-                    <div className=" hover:cursor-pointer hover:bg-gray-100 md:p-2 rounded-full flex justify-center items-center gap-2 md:flex-col relative group" onClick={handleClick}>
+                    <div className="flex-col hover:cursor-pointer hover:bg-gray-100 md:p-2 rounded-full flex justify-center items-center gap-2 md:flex-col relative group" onClick={handleClick}>
                     <img src={chat} alt="" className="md:h-10 md:w-10 h-8 w-8  md:p-1 " title='Assistance'/>
-                    <p  className='hidden md:inline'>Chat</p>
+                    <p  className='text-xs text-red-400'>Chat</p>
                    
                 </div>
-                ):(<div  className=" hover:cursor-pointer hover:bg-gray-100 md:p-2 rounded-full flex justify-center items-center gap-2 md:flex-col relative group"onClick={handleClick}>
+                ):(<div  className="flex-col hover:cursor-pointer hover:bg-gray-100 md:p-2 rounded-full flex justify-center items-center gap-2 md:flex-col relative group"onClick={handleClick}>
                     <img src={quiz} alt="" className="md:h-10 md:w-10 h-8 w-8 md:p-1 " title='Create Quiz'/>
-                    <p className='hidden md:inline'>Quiz</p>
+                    <p className='text-xs text-red-400'>Quiz</p>
                    
                 </div>)}
                     
                 </Link>
 
-                <div className=" hover:cursor-pointer hover:bg-gray-100 md:p-2 rounded-full flex justify-center items-center gap-2 md:flex-col relative group" onClick={handleClick}>
-                    <img src={exit} alt="" className="md:h-10 md:w-10 h-8 w-8 md:p-1" onClick={logOut} title='Logout' />
-                    <p  className='hidden md:inline'>Logout</p>
-                    
-                </div>
-                <div className="hover:cursor-pointer hover:bg-gray-100 md:p-2 rounded-full flex justify-center items-center gap-2 md:flex-col relative group" onClick={handleClick}>
+                <div onClick={handleCopyLink} className=" flex-col hover:cursor-pointer hover:bg-gray-100 md:p-2 rounded-full flex justify-center items-center gap-2 md:flex-col relative group">
                     <img src={link} alt="" className="md:h-10 md:w-10 h-8 w-8  md:p-1 " title = "Share Link" />
-                    <p className='hidden md:inline'>Share</p>
-                    
+                    <p className='text-xs text-red-400'>Share</p>
+                </div>
+
+                <div className="flex flex-col hover:cursor-pointer hover:bg-gray-100 md:p-2 rounded-full  justify-center items-center gap-2 md:flex-col relative group" onClick={handleClick}>
+                    <img src={exit} alt="" className="md:h-10 md:w-10 h-8 w-8 md:p-1" onClick={logOut} title='Logout' />
+                    <p  className='text-xs text-red-400'>Logout</p>
                 </div>
             </div>
         </>

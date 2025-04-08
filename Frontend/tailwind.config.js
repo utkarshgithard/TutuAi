@@ -8,7 +8,7 @@ export default {
     extend: {
       extend: {
         animation: {
-          'spin-fast': 'spin 1s linear infinite',
+          'spin-slow': 'spin 10s linear infinite',
         }
     },
   },
