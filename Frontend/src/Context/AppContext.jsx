@@ -22,6 +22,7 @@ const AppContextProvider = (props) => {
     const [googleloginLoading,setgoogleloginLoading] = useState(false);
     const backendURL = import.meta.env.VITE_BACKEND_URL
     const [showSelectedChatHistory, setShowSelectedChatHistory] = useState(null);
+    const [resources,setResources] = useState(null);
 
 
     const handleSelectChatHistory = (chatId) => {
@@ -102,7 +103,27 @@ const AppContextProvider = (props) => {
             setFetchingHistory(false);
         }
     };
+    const generateResources  = async()=>{
+        try {
+            const res = await axios.post(
+                backendURL+'/api/v1/resource',
+                {chatHistory},{ headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+            );
+            console.log(res);
 
+            if (res.data.resources) {
+                setResources(res.data.resources);
+                console.log(res.data.resources)
+              } else {
+                setError("Failed to generate quiz.");
+            }
+            setChatHistory((prevChat) => [...prevChat, { role: "bot", content: res.data.resources ,type:"resource" }]);
+        } catch (error) {
+            console.error("Error getting response.", error);
+        } finally {
+            setLoading(false);
+        }
+    }
 
     const sendMessage = async () => {
         if (!message.trim()) return;
@@ -147,7 +168,7 @@ const AppContextProvider = (props) => {
         }
 
     };
-    const value = { backendURL,token, setToken, navigate, visible, setVisible, makeQuiz, setMakeQuiz, sendMessage, chatHistory, setChatHistory, conversations, setConversations, conversationId, setConversationId, message, setMessage, fetchingHistory, setFetchingHistory, fetchHistory, deleteCoversation, clearConversation, fetchUserHistory, loading, selectedChatHistory, handleSelectChatHistory, updateConversationName, editingId,newName,setNewName,setEditingId,userName,setUserName,handleSelectConversation,setgoogleloginLoading,googleloginLoading,showSelectedChatHistory,setShowSelectedChatHistory }
+    const value = { backendURL,token, setToken, navigate, visible, setVisible, makeQuiz, setMakeQuiz, sendMessage, chatHistory, setChatHistory, conversations, setConversations, conversationId, setConversationId, message, setMessage, fetchingHistory, setFetchingHistory, fetchHistory, deleteCoversation, clearConversation, fetchUserHistory, loading, selectedChatHistory, handleSelectChatHistory, updateConversationName, editingId,newName,setNewName,setEditingId,userName,setUserName,handleSelectConversation,setgoogleloginLoading,googleloginLoading,showSelectedChatHistory,setShowSelectedChatHistory,generateResources }
 
     return (
         <AppContext.Provider value={value}>

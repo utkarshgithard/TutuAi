@@ -37,7 +37,7 @@ quizRouter.post('/generate-quiz', authUser, async (req, res) => {
 
         const prompt = `
         Ensure questions are relevant to the Conversation History:
-    ${chatHistory.map(chat => `${chat.role ==='user'?`User:${chat.content}`:`Bot:${chat.content}`}`).join("\n")}
+    ${chatHistory.map(chat => `${chat.role === 'user' ? `User:${chat.content}` : `Bot:${chat.content}`}`).join("\n")}
     Format the response as JSON:
     {
     "questions": [
@@ -55,11 +55,11 @@ quizRouter.post('/generate-quiz', authUser, async (req, res) => {
 
 
 
-        const response = await model.generateContent({ contents: [{  parts: [{ text: prompt }] }] });
+        const response = await model.generateContent({ contents: [{ parts: [{ text: prompt }] }] });
         console.log('hi')
         console.log(response.response.candidates[0].content.parts[0].text)
         const quizData = extractJSON(response.response.candidates[0].content.parts[0].text)
-        
+
         console.log(quizData)
         res.json(quizData);
     } catch (error) {

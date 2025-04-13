@@ -1,12 +1,23 @@
 import React from 'react';
 import homep1 from '../assets/p5.png';
 import WhyUseFunStudy from '../components/Card';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { Typewriter } from 'react-simple-typewriter';
 
+
 const Home = () => {
+    const token = localStorage.getItem('token')
+    const navigate = useNavigate();
+    const handleClick = ()=>{
+        if(token){
+            navigate('/chat');
+        }else{
+            navigate('/login')
+        }
+    }
+
     return (
         <>
             <Navbar />
@@ -32,12 +43,12 @@ const Home = () => {
                             No more passive studying—just active conversations, dynamic explanations, and targeted quizzes to make every concept stick.
                         </h3>
                         <div className='flex justify-center md:justify-start '>
-                            <Link
-                                to={'/login'}
+                            <button
+                                onClick={handleClick}
                                 className="px-6 py-3 font-semibold rounded-full border border-cyan-400 text-blue-500 hover:bg-cyan-500 hover:text-black shadow-md transition duration-300 ease-in-out"
                             >
                                 Get Started 🚀
-                            </Link>
+                            </button>
                         </div>
                     </div>
 

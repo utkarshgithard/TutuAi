@@ -5,6 +5,25 @@ import { GoogleGenerativeAI } from '@google/generative-ai'
 import { uniqueId } from '../util.js';
 import authUser from '../middlewares/auth.js';
 import userModel from '../Models/userModal.js';
+const extractJSON = (text) => {
+    try {
+        // Ensure text is a string
+        const textStr = String(text);
+
+        // Use regex to extract JSON content
+        const match = textStr.match(/\{[\s\S]*\}/);
+
+        if (match) {
+            const jsonString = match[0]; // Extract JSON string
+            return JSON.parse(jsonString); // Convert to JavaScript object
+        } else {
+            throw new Error("No valid JSON found in response.");
+        }
+    } catch (error) {
+        console.error("Error parsing JSON:", error);
+        return null;
+    }
+};
 
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
@@ -54,7 +73,48 @@ ChatRouter.get('/getUserHistory', authUser, async (req, res) => {
         res.json({ success: false, message: error.message })
     }
 })
+// i am adding a new route to my backend to generate response.
+ChatRouter.post('/resource', authUser, async (req, res) => {
+    try {
+        const { userId, chatHistory } = req.body;
+        if (!chatHistory || chatHistory.length === 0) {
+            return res.status(400).json({ error: "Chat history is required" });
+        }
 
+        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+
+        const prompt = `You are an AI study assistant helping students understand topics deeply and quickly.
+        I want you to generate resources from the web, which can include youtube video links, valuable articles or wiikipedia results or images links after analysing:
+        ${chatHistory.map(chat => `${chat.role === 'user' ? `User:${chat.content}` : `Bot:${chat.content}`}`).join("\n")} your response should be according to the level of understanding of the user.
+        Format the response as JSON:
+        {
+        "resources": [
+            {
+                "title": "...",
+                "description ": "...",
+                "link": "..."
+            }
+        ]
+        }
+        Based on the following conversation history, generate a resource with simple explaination, real world example .
+        Each resource should be working so that links are clickable. I only want json data nothing else with the resposne.
+`;
+
+
+
+
+        const response = await model.generateContent({ contents: [{ parts: [{ text: prompt }] }] });
+        console.log('hi')
+        console.log(response.response.candidates[0].content.parts[0].text)
+        const resourceData = extractJSON(response.response.candidates[0].content.parts[0].text)
+
+        console.log(resourceData)
+        res.json(resourceData);
+    } catch (error) {
+        console.error("Error generating resources:", error);
+        res.status(500).json({ error: "Unable to found relevant resources." });
+    }
+});
 ChatRouter.post('/chat', authUser, async (req, res) => {
 
 
@@ -148,4 +208,5 @@ ChatRouter.delete("/clear-conversation", authUser, async (req, res) => {
         res.status(500).json({ error: "Something went wrong" });
     }
 });
+
 export default ChatRouter

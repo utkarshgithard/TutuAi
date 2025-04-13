@@ -39,7 +39,7 @@ const NavChat = ({ setConversationId, setChatHistory, fetchUserHistory, conversa
         console.log(visible)
     }, [])
     return (
-        <div className={`bg-white h-20 md:${'h-14'} px-2 navHead items-center pt-1 fixed top-0 left-0 w-full z-50 flex justify-between border-b-gray-300 border-2 pr-7 `}>
+        <div className={`bg-white h-20 md:${'h-14'} px-2 navHead items-center pt-1 fixed top-0 left-0 w-full z-50 flex justify-between border-b-gray-300 border-2  `}>
             <div className="flex items-center gap-4">
                 <img
                     src={logo}
